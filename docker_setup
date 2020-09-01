@@ -1,6 +1,6 @@
 #!/bin/bash
 
-postgresPassword=$(cat /dev/urandom | base64 | head -c 64)
+postgresPassword=$(cat /dev/urandom | tr -dc A-Za-z0-9 | head -c 64)
 jwtSecret=$(cat /dev/urandom | base64 | head -c 256)
 encryptionKey=$(cat /dev/urandom | base64 | head -c 64)
 publicIpAddress=$(dig +short myip.opendns.com @resolver1.opendns.com)
@@ -65,6 +65,9 @@ echo "# OKTA_CLIENT_ID={YOUR OKTA CLIENT ID}" >> docker.env
 
 echo '' >> docker.env
 echo '## License key' >> docker.env
-echo 'LICENSE_KEY=EXPIRED-LICENSE-KEY-TRIAL' >> docker.env
+echo 'LICENSE_KEY=LOCAL-ONLY-TRIAL' >> docker.env
+
+echo '# This is optional but recommended for a basic trial set-up' >> docker.env
+echo 'COOKIE_INSECURE=true' >> docker.env
 
 echo "Cool! Now just run docker-compose up to launch Retool."
